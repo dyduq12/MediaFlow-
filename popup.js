@@ -175,6 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
       btnDownloadCapture.innerHTML = originalText;
     }, 3000);
+  });
 
   // Drag and Drop (Tab 2)
   dropzone.addEventListener('click', () => localFileInput.click());

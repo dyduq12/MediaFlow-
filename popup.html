@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediaFlow Pro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="logo" style="display: flex; align-items: center;">
+        <img src="assets/Dyduq12 logo Branca.png" alt="Dyduq12 Logo" style="height: 28px; width: auto; margin-right: 8px; object-fit: contain;">
+        <span>MediaFlow Pro</span>
+      </div>
+      <div class="badge-status" id="engine-badge">
+        <div class="status-dot" id="status-dot"></div>
+        <span id="engine-text">Modo Padrão</span>
+      </div>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tabs-nav">
+      <button class="tab-btn active" data-tab="tab-capture">Captura Ativa</button>
+      <button class="tab-btn" data-tab="tab-converter">Conversor Local</button>
+      <button class="tab-btn" data-tab="tab-power">Modo Power</button>
+    </nav>
+
+    <!-- Tab 1: Captura Ativa -->
+    <div class="tab-panel active" id="tab-capture">
+      <div class="glass-card">
+        <div class="card-title">
+          <span>Mídias Detectadas na Aba</span>
+          <button class="btn-secondary" id="btn-refresh-media" style="width: auto; padding: 4px 8px; font-size: 0.7rem;">⚡ Atualizar</button>
+        </div>
+        <div class="media-list" id="media-list">
+          <div class="notice-box info" id="media-loading">Buscando vídeos e áudios na página...</div>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title">Opções de Formato</div>
+        <div class="format-group">
+          <label class="checkbox-btn">
+            <input type="checkbox" name="format-type" value="mp4_audio" checked>
+            <span>MP4 (Com Áudio)</span>
+          </label>
+          <label class="checkbox-btn">
+            <input type="checkbox" name="format-type" value="mp4_mute">
+            <span>MP4 (Mudo)</span>
+          </label>
+          <label class="checkbox-btn">
+            <input type="checkbox" name="format-type" value="mp3">
+            <span>MP3 (Áudio)</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title">Corte por Intervalo (Timestamps)</div>
+        <div class="time-trim-group">
+          <div class="input-field">
+            <label>Tempo Inicial</label>
+            <input type="text" id="time-start" placeholder="00:00:00" value="00:00:00">
+          </div>
+          <div class="input-field">
+            <label>Tempo Final</label>
+            <input type="text" id="time-end" placeholder="00:00:00">
+          </div>
+        </div>
+        <div class="notice-box" id="trim-warning" style="margin-top: 10px; display: none;">
+          ⚠️ O corte direto de streaming requer o Modo Power (yt-dlp). Caso inativo, a mídia será baixada inteira ou cortada localmente via FFmpeg WASM.
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-download-capture">
+        <span>Baixar / Processar Mídia</span>
+      </button>
+    </div>
+
+    <!-- Tab 2: Conversor Local -->
+    <div class="tab-panel" id="tab-converter">
+      <div class="glass-card">
+        <div class="card-title">Conversor Local Offline (FFmpeg WASM)</div>
+        <div class="dropzone" id="dropzone">
+          <div class="dropzone-icon">📁</div>
+          <p style="font-size: 0.85rem; font-weight: 600;">Arraste um arquivo aqui</p>
+          <p style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">ou clique para selecionar do computador</p>
+          <input type="file" id="local-file-input" style="display: none;" accept="video/*,audio/*">
+        </div>
+        <div id="file-info" style="font-size: 0.78rem; margin-top: 8px; display: none; color: #a5b4fc;"></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title">Formato de Saída</div>
+        <select id="target-format" style="width: 100%; padding: 8px; background: rgba(15,23,42,0.7); border: 1px solid var(--border-glass); color: #fff; border-radius: 6px;">
+          <option value="mp4">MP4 Video (H.264 / AAC)</option>
+          <option value="mp3">MP3 Audio (192kbps)</option>
+          <option value="wav">WAV Audio (Uncompressed)</option>
+          <option value="webm">WEBM Video (VP9)</option>
+        </select>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title">Corte de Tempo Arquivo Local</div>
+        <div class="time-trim-group">
+          <div class="input-field">
+            <label>Início (Segundos ou MM:SS)</label>
+            <input type="text" id="local-start" placeholder="00:00">
+          </div>
+          <div class="input-field">
+            <label>Fim (Segundos ou MM:SS)</label>
+            <input type="text" id="local-end" placeholder="00:00">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-convert-local">
+        <span>Iniciar Conversão WASM</span>
+      </button>
+
+      <div class="progress-bar" id="convert-progress-bar">
+        <div class="progress-fill" id="convert-progress-fill"></div>
+      </div>
+      <div id="convert-status-text" style="font-size: 0.72rem; color: var(--text-muted); text-align: center;"></div>
+    </div>
+
+    <!-- Tab 3: Modo Power -->
+    <div class="tab-panel" id="tab-power">
+      <div class="glass-card">
+        <div class="card-title">Assistente Local Native Messaging</div>
+        <div style="font-size: 0.8rem; line-height: 1.4; color: var(--text-muted);">
+          O Modo Power conecta a extensão diretamente ao <strong style="color: #fff;">yt-dlp</strong> instalado no seu sistema para liberar suporte a sites com proteção avançada e cortes instantâneos no download.
+        </div>
+        <button class="btn-secondary" id="btn-test-power" style="margin-top: 10px;">⚡ Testar Conexão com Host</button>
+        <div id="power-test-result" class="notice-box info" style="margin-top: 8px; display: none;"></div>
+      </div>
+
+      <div class="glass-card">
+        <div class="card-title">Instalação em 1 Clique</div>
+        <div style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+          Baixe e execute o assistente de instalação local para registrar o pipe seguro `com.extensao.downloader`.
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 10px;">
+          <button class="btn-primary" id="btn-download-host" style="font-size: 0.75rem;">
+            📥 Baixar script Python
+          </button>
+          <button class="btn-secondary" id="btn-open-welcome" style="font-size: 0.75rem;">
+            📖 Tutorial Completo
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Créditos -->
+    <div style="text-align: center; margin-top: 10px; font-size: 0.7rem; color: var(--text-muted);">
+      Desenvolvido por <img src="assets/Dyduq12 logo Branca.png" alt="Dyduq12" style="height: 12px; vertical-align: middle; margin-left: 2px;">
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

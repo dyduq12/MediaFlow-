@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bem-vindo ao MediaFlow Pro</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      width: 100%;
+      min-height: 100vh;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .welcome-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .welcome-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-top: 10px;
+    }
+    .welcome-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 8px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    @media (max-width: 768px) {
+      .grid-2 { grid-template-columns: 1fr; }
+    }
+    .mode-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .mode-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: fit-content;
+    }
+    .badge-standard { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.4); }
+    .badge-power { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    .privacy-item {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .privacy-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .code-block {
+      background: #020617;
+      border: 1px solid var(--border-glass);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: #38bdf8;
+      overflow-x: auto;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="welcome-header">
+    <div style="margin: 0 auto 10px auto; width: fit-content;">
+      <img src="assets/Dyduq12 logo Branca.png" alt="Dyduq12 Logo" style="height: 60px; width: auto; object-fit: contain;">
+    </div>
+    <h1 class="welcome-title">Bem-vindo ao MediaFlow Pro</h1>
+    <p class="welcome-subtitle">Sua extensão completa de captura, conversão offline e download de mídias</p>
+  </div>
+
+  <!-- Comparativo de Modos -->
+  <h2 style="font-size: 1.3rem; margin-bottom: 16px; font-weight: 700;">Modos de Operação Duplos</h2>
+  <div class="grid-2">
+    <div class="mode-card">
+      <span class="mode-badge badge-standard">MODO PADRÃO (NATIVO & WASM)</span>
+      <h3 style="font-size: 1.1rem; color: #fff;">100% Offline via Navegador</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+        Sem necessidade de instalações adicionais. Captura vídeos HTML5 diretos e realiza conversão e corte local de arquivos usando WebAssembly (FFmpeg.wasm) no documento Offscreen isolado.
+      </p>
+      <ul style="font-size: 0.82rem; color: #cbd5e1; margin-left: 18px; line-height: 1.6;">
+        <li>Captura de elementos &lt;video&gt; e &lt;audio&gt;</li>
+        <li>Conversor local de arquivos por drag-and-drop</li>
+        <li>Privacidade total sem conexão externa</li>
+      </ul>
+    </div>
+
+    <div class="mode-card">
+      <span class="mode-badge badge-power">MODO POWER (YT-DLP NATIVE)</span>
+      <h3 style="font-size: 1.1rem; color: #fff;">Poder Total com Assistente Local</h3>
+      <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5;">
+        Integra a extensão ao motor <strong>yt-dlp</strong> através do protocolo de Native Messaging do Chrome (`com.extensao.downloader`).
+      </p>
+      <ul style="font-size: 0.82rem; color: #cbd5e1; margin-left: 18px; line-height: 1.6;">
+        <li>Corte exato de trechos (`--download-sections`)</li>
+        <li>Suporte a mídias protegidas e plataformas de streaming</li>
+        <li>Processamento ultrarrápido direto pelo SO</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Diagnóstico do Assistente Local -->
+  <div class="glass-card" style="margin-bottom: 30px;" id="installer">
+    <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 12px;">Diagnóstico do Modo Power</h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px;">
+      Verifique abaixo se o assistente de Native Messaging `com.extensao.downloader` está registrado no seu sistema operacional.
+    </p>
+
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <button class="btn-primary" id="btn-test-native-welcome" style="width: auto; padding: 10px 20px;">
+        ⚡ Testar Conexão do Assistente
+      </button>
+      <span id="diagnostic-status" style="font-size: 0.85rem; font-weight: 600;">Status: Não testado</span>
+    </div>
+
+    <div id="diagnostic-output" class="notice-box info" style="margin-top: 14px; display: none;"></div>
+  </div>
+
+  <!-- Guia de Instalação do Native Messaging -->
+  <div class="glass-card" style="margin-bottom: 30px;">
+    <h2 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px;">Como Ativar o Modo Power (2 Maneiras Fáceis)</h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px;">
+      Escolha uma das opções abaixo para registrar o assistente local no sistema operacional:
+    </p>
+
+    <!-- Opção 1: Terminal Direto (Recomendado) -->
+    <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-glass); border-radius: 10px; padding: 14px; margin-bottom: 14px;">
+      <h3 style="font-size: 0.95rem; color: #38bdf8; margin-bottom: 6px;">💻 Opção 1: Terminal Direto (Recomendado)</h3>
+      <p style="font-size: 0.82rem; color: #cbd5e1; margin-bottom: 8px;">
+        1. Abra a pasta onde você salvou a extensão (por exemplo: <code>bAIXADOR</code>).<br>
+        2. Clique com o <strong>botão direito</strong> em um espaço vazio e selecione <strong>"Abrir no Terminal"</strong>.<br>
+        3. Cole o comando abaixo, que já inclui o ID exato da sua extensão:
+      </p>
+      <div class="code-block" id="cmd-command-box" style="user-select: all; cursor: pointer;" title="Clique para selecionar">
+        python host_installer.py <span id="extension-id-display">...</span>
+      </div>
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <button class="btn-primary" id="btn-copy-cmd" style="width: auto; padding: 8px 16px; font-size: 0.8rem;">
+          📋 Copiar Comando
+        </button>
+        <span id="copy-status" style="font-size: 0.8rem; color: #34d399; display: none; align-self: center;">✅ Copiado com sucesso!</span>
+      </div>
+    </div>
+
+    <!-- Opção 2: Clique Duplo -->
+    <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-glass); border-radius: 10px; padding: 14px;">
+      <h3 style="font-size: 0.95rem; color: #38bdf8; margin-bottom: 6px;">🖱️ Opção 2: Clique Duplo</h3>
+      <p style="font-size: 0.82rem; color: #cbd5e1; line-height: 1.4;">
+        Acesse a pasta da extensão e dê <strong>2 cliques no arquivo <u>install_host.bat</u></strong>. O instalador solicitará o ID da sua extensão (que é <strong style="color: #fff;" id="extension-id-display-2">...</strong>).
+      </p>
+    </div>
+  </div>
+
+  <!-- SEÇÃO DE SEGURANÇA E PRIVACIDADE AUDITÁVEL -->
+  <div class="glass-card">
+    <h2 style="font-size: 1.3rem; font-weight: 700; color: #10b981; display: flex; align-items: center; gap: 8px;">
+      🛡️ Privacidade & Segurança Auditável
+    </h2>
+    <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 6px;">
+      Projetado com transparência absoluta. Veja por que esta extensão é 100% segura para uso diário:
+    </p>
+
+    <div class="privacy-grid">
+      <div class="privacy-item">
+        <div class="privacy-title">🔒 1. 100% Processamento Local</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+          Nenhum dado, vídeo ou arquivo convertido é enviado para servidores remotos. Todas as conversões acontecem no seu processador via WebAssembly (Offscreen) ou yt-dlp local.
+        </p>
+      </div>
+
+      <div class="privacy-item">
+        <div class="privacy-title">📖 2. Código 100% Aberto e Auditável</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+          Todos os arquivos `.js` e `.py` da extensão e do assistente nativo podem ser abertos e inspecionados no Bloco de Notas ou VS Code sem código ofuscado.
+        </p>
+      </div>
+
+      <div class="privacy-item">
+        <div class="privacy-title">🔑 3. Permissões Mínimas no Manifest</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+          O `manifest.json` não solicita permissões de leitura de cookies, senhas, histórico ou navegação pessoal.
+        </p>
+      </div>
+
+      <div class="privacy-item">
+        <div class="privacy-title">🔗 4. Comunicação Segura via Stdin/Stdout</div>
+        <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.4;">
+          O assistente nativo opera estritamente via pipes locais do SO (stdin/stdout). Não abre portas de rede TCP/UDP nem conecta a endereços externos.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <div style="text-align: center; margin-top: 30px; font-size: 0.9rem; color: var(--text-muted);">
+    Desenvolvido com excelência por <br>
+    <img src="assets/Dyduq12 logo Branca.png" alt="Dyduq12 Logo" style="height: 25px; margin-top: 10px;">
+  </div>
+
+  <script src="welcome.js"></script>
+</body>
+</html>

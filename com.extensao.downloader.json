@@ -1,0 +1,9 @@
+{
+  "name": "com.extensao.downloader",
+  "description": "MediaFlow Pro Native Messaging Host (yt-dlp wrapper)",
+  "path": "C:\\Users\\Eduardo\\Documents\\extencao\\MediaFlow_Pro\\run_host.bat",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://kkkfdocnlnhkbbhpcnpeopfhfiacocdo/"
+  ]
+}
